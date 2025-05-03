@@ -1,7 +1,4 @@
-import { serveDir, serveFile } from "jsr:@std/http/file-server";
-import { PubkeyUser } from "./PubkeyUser.js";
-import { CBOR } from "https://js.sabae.cc/CBOR.js";
-import { ret } from "./ret.js";
+import { makeFetch } from "./serverutil.js";
 
 await Deno.mkdir("pubkey", { recursive: true });
 
@@ -18,26 +15,12 @@ const incCount = async (pubkey) => {
   return n;
 };
 
-const serveAPI = async (req, conn) => {
-  if (req.method == "OPTIONS") return ret("ok");
-  const data = CBOR.decode(await req.bytes());
-
-  if (!PubkeyUser.verify(data.sign)) return ret("auth err", 401);
-  const pubkey = PubkeyUser.getUser(data.sign);
-
-  const cnt = await incCount(pubkey);
-  return ret(`count: ${cnt} pubkey: ${pubkey}`);
-};
-
-const serve = async (req, conn) => {
-  const path = new URL(req.url).pathname;
-  if (path.startsWith("/api/")) {
-    return serveAPI(req, conn);
-  } else if (path == "/PubkeyUser.js") {
-    return serveFile(req, "." + path);
-  } else {
-    return serveDir(req, { fsRoot: "static", urlRoot: "" });
+const api = async (path, param, pubkey) => {
+  if (path == "inc") {
+    if (!pubkey) return { pubkey: "null", count: "-" };
+    const cnt = await incCount(pubkey);
+    return { pubkey, count: cnt };
   }
 };
 
-export default { fetch: serve };
+export default { fetch: makeFetch(api) };

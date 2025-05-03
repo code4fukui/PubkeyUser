@@ -16,10 +16,9 @@ console.log(s);
 
 verify (検証)
 ```js
-const pubkey = PubkeyUser.getUser(sign);
-const b = PubkeyUser.verify(sign);
-console.log(pubkey, b);
-// 30GZ_EJR3_VDN6_W6U9_U4ZQ_L3M3_KCCE_M9VL_AYYN_04YE_Q4AG_M908_RLYH true
+const pubkey = PubkeyUser.verify(sign);
+console.log(pubkey);
+// 30GZ_EJR3_VDN6_W6U9_U4ZQ_L3M3_KCCE_M9VL_AYYN_04YE_Q4AG_M908_RLYH
 ```
 
 ## demo app: API server with PubkeyUser

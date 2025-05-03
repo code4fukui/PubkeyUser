@@ -1,19 +1,22 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="data:">
+<title>PubkeyUser API server demo</title>
+</head><body>
+<h1>PubkeyUser API server demo</h1>
+
+pubkey: <span id=span_pubkey></span><br>
+count: <span id=span_count></span><br>
+
 <script type="module">
 import { PubkeyUser } from "./PubkeyUser.js";
-import { CBOR } from "https://js.sabae.cc/CBOR.js";
 
 const u = new PubkeyUser();
-console.log(u.pubkey);
 
-const data = {
-  sign: u.sign(),
-  param: "hello!",
-};
-const res = await (await fetch("./api/", {
-  method: "POST",
-  body: CBOR.encode(data),
-})).text();
+const param = {};
+const res = await u.fetch("inc", param);
+console.log(res)
 
-document.body.appendChild(document.createTextNode(res));
+span_pubkey.textContent = res.pubkey;
+span_count.textContent = res.count;
 </script>
+
+</body></html>

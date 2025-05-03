@@ -3,6 +3,7 @@ import * as sec from "https://code4fukui.github.io/sec.js/sec.js";
 //import { Base64URL } from "https://code4fukui.github.io/Base64URL/Base64URL.js";
 //import { Base16 } from "https://code4fukui.github.io/Base16/Base16.js";
 import { Base32 } from "https://code4fukui.github.io/Base32/Base32.js";
+import { CBOR } from "https://js.sabae.cc/CBOR.js";
 
 //export const Coder = Base64URL;
 //export const Coder = Base16;
@@ -28,21 +29,35 @@ export class PubkeyUser {
     const sign = Coder.encode(sec.sign(Coder.decode(this.prikey), new TextEncoder().encode(dt)));
     return this.pubkey + " " + dt + " " + sign;
   }
-  static getUser(ssign) {
+  async fetch(apipath, param) {
+    const data = {
+      sign: this.sign(),
+      param,
+    };
+    const res = await fetch("./api/" + apipath, {
+      method: "POST",
+      body: CBOR.encode(data),
+    });
+    const mime = res.headers.get("Content-Type");
+    const bin = await res.bytes();
+    if (mime == "application/cbor") {
+      return CBOR.decode(bin);
+    } else if (mime == "text/plain") {
+      return new TextDecoder().decode(bin);
+    }
+    return bin;
+  }
+  static verify(ssign, valid_dt = default_valid_dt) {
     if (!ssign || typeof ssign != "string") return null;
     const ss = ssign.split(" ");
     if (ss.length < 3) return null;
-    return ss[0];
-  }
-  static verify(ssign, valid_dt = default_valid_dt) {
-    const pubkey = PubkeyUser.getUser(ssign);
-    if (!pubkey) return false;
-    const ss = ssign.split(" ");
+    const pubkey = ss[0];
+    if (!pubkey) return null;
     const dt = ss[1];
     const sign = Coder.decode(ss[2]);
     const nowdt = new DateTime().getTime() - new DateTime(dt).getTime();
-    if (nowdt > valid_dt) return false;
+    if (nowdt > valid_dt) return null;
     if (!sec.verify(sign, Coder.decode(pubkey), new TextEncoder().encode(dt))) return false;
-    return true;
+    return pubkey;
   }
 }
