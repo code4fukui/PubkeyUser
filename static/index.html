@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="data:">
+<script type="module">
+import { PubkeyUser } from "./PubkeyUser.js";
+import { CBOR } from "https://js.sabae.cc/CBOR.js";
+
+const u = new PubkeyUser();
+console.log(u.pubkey);
+
+const data = {
+  sign: u.sign(),
+  param: "hello!",
+};
+const res = await (await fetch("./api/", {
+  method: "POST",
+  body: CBOR.encode(data),
+})).text();
+
+document.body.appendChild(document.createTextNode(res));
+</script>
