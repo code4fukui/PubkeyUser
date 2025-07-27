@@ -32,7 +32,7 @@ export const makeFetch = (api) => {
     const pubkey = PubkeyUser.verify(data.sign);
     const param = data.param;
 
-    const res = await api(path, param, pubkey);
+    const res = await api(path, param, pubkey, req, conn);
     if (res) {
       return ret(res)
     }

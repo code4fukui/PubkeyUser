@@ -15,7 +15,8 @@ const incCount = async (pubkey) => {
   return n;
 };
 
-const api = async (path, param, pubkey) => {
+const api = async (path, param, pubkey, req, conn) => {
+  //console.log(path, req, conn, req.headers.get("user-agent"));
   if (path == "inc") {
     if (!pubkey) return { pubkey: "null", count: "-" };
     const cnt = await incCount(pubkey);
