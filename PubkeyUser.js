@@ -39,7 +39,8 @@ export class PubkeyUser {
       body: CBOR.encode(data),
     });
     const mime = res.headers.get("Content-Type");
-    const bin = await res.bytes();
+    //const bin = await res.bytes();
+    const bin = new Uint8Array(await res.arrayBuffer());
     if (mime == "application/cbor") {
       return CBOR.decode(bin);
     } else if (mime == "text/plain") {
