@@ -9,7 +9,7 @@ export const makeFetch = (api) => {
     const data = await get(req, ctype);
     let pubkey = null;
     let param = data;
-    if (data.sign) {
+    if (data && data.sign) {
       pubkey = PubkeyUser.verify(data.sign);
       param = data.param;
     }
