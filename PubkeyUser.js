@@ -34,7 +34,7 @@ export class PubkeyUser {
       sign: this.sign(),
       param,
     };
-    const res = await fetch("./api/" + apipath, {
+    const res = await fetch("/api/" + apipath, {
       method: "POST",
       body: CBOR.encode(data),
       headers: {
