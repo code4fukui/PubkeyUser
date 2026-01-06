@@ -5,9 +5,17 @@
 
 ## uage
 
+fetch API with sign (電子署名付きAPIアクセス)
+```js
+import { PubkeyUser } from "https://code4fukui.github.io/PubkeyUser/PubkeyUser.js";
+
+const u = new PubkeyUser(); // prikey saved to localStorage
+console.log(u.pubkey); // pubkey
+const res = await u.fetch("inc", { param: "abc" });
+```
+
 sign (電子署名)
 ```js
-const u = new PubkeyUser(); // prikey saved to localStorage
 const s = u.sign();
 console.log(s);
 // [pubkey] [dt] [sign]
