@@ -10,6 +10,7 @@ fetch API with sign (電子署名付きAPIアクセス)
 import { PubkeyUser } from "https://code4fukui.github.io/PubkeyUser/PubkeyUser.js";
 
 const u = new PubkeyUser(); // prikey saved to localStorage
+console.log(u.pubkey); // pubkey
 const res = await u.fetch("inc", { param: "abc" });
 ```
 
