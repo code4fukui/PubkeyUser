@@ -24,7 +24,12 @@ console.log(pubkey);
 ## demo app: API server with PubkeyUser
 
 - server: [server_pubkey.js](server_pubkey.js)
+```sh
+deno serve -A --port 8101 server_pubkey.js
+```
+
 - client: [static/index.html](static/index.html)
+open http://localhost:8101/
 
 ## reference
 
