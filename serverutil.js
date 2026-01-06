@@ -14,7 +14,7 @@ export const makeFetch = (api) => {
       param = data.param;
     }
     const res = await api(path, param, pubkey, req, conn);
-    if (res) {
+    if (res !== undefined) {
       return ret(res, 200, ctype);
     }
     return ret("not found", 404);

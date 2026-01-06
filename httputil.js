@@ -21,19 +21,17 @@ export const get = async (req, ctype) => {
 };
 
 export const ret = (body, status = 200, mime = "text/plain") => {
-  if (body instanceof Uint8Array) {
+  if (mime == "application/cbor") {
+    body = CBOR.encode(body);
+  } else if (mime == "application/json") {
+    body = encoder.encode(JSON.stringify(body));
+  } else if (body instanceof Uint8Array) {
     if (mime == "text/plain") {
       mime = "application/octet-stream";
     }
   } else if (typeof body == "object") {
-    if (mime == "application/cbor") {
-      body = CBOR.encode(body);
-    } else {
-      body = encoder.encode(JSON.stringify(body));
-      mime = "application/json";
-    }
-  } else if (typeof body == "string") {
-    mime = "text/plain";
+    body = encoder.encode(JSON.stringify(body));
+    mime = "application/json";
   }
   return new Response(
     body,
