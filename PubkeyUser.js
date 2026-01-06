@@ -37,6 +37,9 @@ export class PubkeyUser {
     const res = await fetch("./api/" + apipath, {
       method: "POST",
       body: CBOR.encode(data),
+      headers: {
+        "Content-Type": "application/cbor",
+      },
     });
     const mime = res.headers.get("Content-Type");
     //const bin = await res.bytes();

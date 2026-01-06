@@ -6,17 +6,32 @@
 pubkey: <span id=span_pubkey></span><br>
 count: <span id=span_count></span><br>
 
+<button id=btn>inc</button> <button id=btn2>inc without pubkey</button>
+
 <script type="module">
 import { PubkeyUser } from "./PubkeyUser.js";
+import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js"; // without pubkey
 
 const u = new PubkeyUser();
 
-const param = {};
-const res = await u.fetch("inc", param);
-console.log(res)
+btn.onclick = async () => {
+  const param = {};
+  const res = await u.fetch("inc", param); // with pubkey
+  console.log(res)
 
-span_pubkey.textContent = res.pubkey;
-span_count.textContent = res.count;
+  span_pubkey.textContent = res.pubkey;
+  span_count.textContent = res.count;
+};
+
+btn2.onclick = async () => {
+  const param = {};
+  const res = await fetchJSON("api/inc", param); // without pubkey
+  console.log(res)
+
+  span_pubkey.textContent = res.pubkey;
+  span_count.textContent = res.count;
+};
+
 </script>
 
 </body></html>
