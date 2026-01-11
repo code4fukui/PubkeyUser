@@ -1,6 +1,7 @@
 import { serveDir, serveFile } from "jsr:@std/http/file-server";
 import { PubkeyUser } from "./PubkeyUser.js";
 import { get, ret } from "./httputil.js";
+export { get, ret };
 
 export const makeFetch = (api) => {
   const serveAPI = async (path, req, conn) => {
