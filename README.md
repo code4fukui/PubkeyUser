@@ -39,6 +39,17 @@ deno serve -A --port 8101 server_pubkey.js
 - client: [static/index.html](static/index.html)
 open http://localhost:8101/
 
+## file upload with PubkeyUser
+
+```js
+import { InputFilePubkeyUser } from "./InputFilePubkeyUser.js";
+
+const u = new PubkeyUser(); // prikey saved to localStorage
+
+const infile = new InputFilePubkeyUser(u);
+document.body.appendChild(infile);
+```
+
 ## reference
 
 - [sec.js](https://github.com/code4fukui/sec.js/)
