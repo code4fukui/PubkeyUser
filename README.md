@@ -1,5 +1,7 @@
 # PubkeyUser
 
+> 日本語のREADMEはこちらです: [README.ja.md](README.ja.md)
+
 An easy user authentication system using public key cryptography for web applications.
 
 ## Features
