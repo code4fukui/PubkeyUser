@@ -28,21 +28,6 @@ const res = await u.fetch("inc", { param: "abc" });
 // sends a signed request to the server
 ```
 
-### Server Implementation
-```js
-import { makeFetch } from "./serverutil.js";
-
-const api = async (path, param, pubkey, req, conn) => {
-  if (path == "inc") {
-    if (!pubkey) return { pubkey: "null", count: "-" };
-    const cnt = await incCount(pubkey);
-    return { pubkey, count: cnt };
-  }
-};
-
-export default { fetch: makeFetch(api) };
-```
-
 ### File Upload with PubkeyUser
 ```js
 import { InputFilePubkeyUser } from "./InputFilePubkeyUser.js";
@@ -53,4 +38,4 @@ document.body.appendChild(infile);
 ```
 
 ## License
-MIT
+MIT License — see [LICENSE](LICENSE).
